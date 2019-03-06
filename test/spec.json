@@ -1,0 +1,672 @@
+{
+    "format_version": "1.0.0",
+    "generated_at_timestamp": 1547805159,
+    "steplib_source": "https://github.com/bitrise-io/bitrise-steplib.git",
+    "download_locations": [
+        {
+            "type": "zip",
+            "src": "https://bitrise-steplib-collection.s3.amazonaws.com/step-archives/"
+        },
+        {
+            "type": "git",
+            "src": "source/git"
+        }
+    ],
+    "assets_download_base_uri": "https://bitrise-steplib-collection.s3.amazonaws.com/steps",
+    "steps": {
+        "deploy-to-bitrise-io": {
+            "info": {
+                "asset_urls": {
+                    "icon.svg": "https://bitrise-steplib-collection.s3.amazonaws.com/steps/deploy-to-bitrise-io/assets/icon.svg"
+                }
+            },
+            "versions": {
+                "1.3.19": {
+                    "title": "Deploy to Bitrise.io - Apps, Logs, Artifacts",
+                    "summary": "Generic artifacts deployer, attaches the artifacts to bitrise.io builds.",
+                    "description": "This generic artifacts deployer attaches the artifacts to bitrise.io builds.\n\nYou'll see the deployed files in the `Apps and Artifacts` section of the build's page on bitrise.io.",
+                    "website": "https://github.com/lszucs/steps-deploy-to-bitrise-io",
+                    "source_code_url": "https://github.com/lszucs/steps-deploy-to-bitrise-io",
+                    "support_url": "https://github.com/lszucs/steps-deploy-to-bitrise-io/issues",
+                    "published_at": "2018-12-19T12:51:27.610953011Z",
+                    "source": {
+                        "git": "https://github.com/lszucs/steps-deploy-to-bitrise-io.git",
+                        "commit": "dd02ec72036eea4bb5ed8099493fd2e5c809a285"
+                    },
+                    "asset_urls": {
+                        "icon.svg": "https://bitrise-steplib-collection.s3.amazonaws.com/steps/deploy-to-bitrise-io/assets/icon.svg"
+                    },
+                    "host_os_tags": [
+                        "osx-10.10"
+                    ],
+                    "type_tags": [
+                        "deploy"
+                    ],
+                    "toolkit": {
+                        "go": {
+                            "package_name": "github.com/lszucs/steps-deploy-to-bitrise-io"
+                        }
+                    },
+                    "is_requires_admin_user": false,
+                    "is_always_run": true,
+                    "is_skippable": false,
+                    "run_if": ".IsCI",
+                    "timeout": 0,
+                    "inputs": [
+                        {
+                            "deploy_path": "$BITRISE_DEPLOY_DIR",
+                            "opts": {
+                                "category": "",
+                                "description": "Specify the directory or file path which will be deployed.\nIf the specified path is a directory, then every file\nin the specified directory will be deployed, sub-directories, however,\nwon't be uploaded. To upload the directory's content\nrecursively, you should use the *Compress* option\nwhich will compress the whole directory, with\nevery sub-directory included.\n\nIf you specify a file path, then only the specified\nfile will be deployed.\n",
+                                "is_dont_change_value": false,
+                                "is_expand": true,
+                                "is_required": true,
+                                "is_sensitive": false,
+                                "is_template": false,
+                                "skip_if_empty": false,
+                                "summary": "",
+                                "title": "Deploy directory or file path"
+                            }
+                        },
+                        {
+                            "notify_user_groups": "everyone",
+                            "opts": {
+                                "category": "",
+                                "description": "Your App's user roles you want to notify. Separate the role names with commas.\nPossible role names:\n\n* none\n* testers\n* developers\n* admins\n* owner\n* everyone\n\nAn example to notify your developers and testers:\n\n`testers, developers`\n\nIf you want to notify everyone in the app's team, just specify `everyone`.\n\nIf you don't want to notify anyone, set this to `none`.\n",
+                                "is_dont_change_value": false,
+                                "is_expand": true,
+                                "is_required": false,
+                                "is_sensitive": false,
+                                "is_template": false,
+                                "skip_if_empty": false,
+                                "summary": "",
+                                "title": "Notify: User Roles"
+                            }
+                        },
+                        {
+                            "notify_email_list": null,
+                            "opts": {
+                                "category": "",
+                                "description": "Email addresses to notify. Separate them with commas.\n\nYou can specify any email address, the recipients\ndon't have to be in your team.\n",
+                                "is_dont_change_value": false,
+                                "is_expand": true,
+                                "is_required": false,
+                                "is_sensitive": true,
+                                "is_template": false,
+                                "skip_if_empty": false,
+                                "summary": "",
+                                "title": "Notify: Emails"
+                            }
+                        },
+                        {
+                            "is_enable_public_page": "true",
+                            "opts": {
+                                "category": "",
+                                "description": "If this option is enabled, a public install page\nwill be available with a long and random URL which can be shared\nwith others who are not registered on Bitrise.\n\n**If you disable this option, the `Notify Emails` option will\nbe ignored and the `Notify User Roles` users will receive the build's\nURL instead of the public page's URL!**\n",
+                                "is_dont_change_value": false,
+                                "is_expand": false,
+                                "is_required": true,
+                                "is_sensitive": false,
+                                "is_template": false,
+                                "skip_if_empty": false,
+                                "summary": "",
+                                "title": "Enable public page for the App?",
+                                "value_options": [
+                                    "true",
+                                    "false"
+                                ]
+                            }
+                        },
+                        {
+                            "is_compress": "false",
+                            "opts": {
+                                "category": "",
+                                "description": "If this option is allowed, the artifacts\nfound in the *Deploy directory* folder will be compressed\ninto a single file.\n\nYou can specify a custom name for the ZIP using the *zip_name*\noption - otherwise we're going to use the *Deploy directory* name.\n\nIf this option is turned off, the artifacts\nfound in the *Deploy directory* folder will be deployed\nseparately.",
+                                "is_dont_change_value": false,
+                                "is_expand": false,
+                                "is_required": true,
+                                "is_sensitive": false,
+                                "is_template": false,
+                                "skip_if_empty": false,
+                                "summary": "If this option is allowed, the artifacts\nfound in the *Deploy directory* folder will be compressed\ninto a single (ZIP) file.",
+                                "title": "Compress the artifacts into one file?",
+                                "value_options": [
+                                    "true",
+                                    "false"
+                                ]
+                            }
+                        },
+                        {
+                            "opts": {
+                                "category": "",
+                                "description": "Specify the output pattern with golang template: [https://golang.org/pkg/text/template](https://golang.org/pkg/text/template)",
+                                "is_dont_change_value": false,
+                                "is_expand": false,
+                                "is_required": true,
+                                "is_sensitive": false,
+                                "is_template": false,
+                                "skip_if_empty": false,
+                                "summary": "You can change the format of the BITRISE_PUBLIC_INSTALL_PAGE_URL_MAP output",
+                                "title": "Format for the BITRISE_PUBLIC_INSTALL_PAGE_URL_MAP output"
+                            },
+                            "public_install_page_url_map_format": "{{range $index, $element := .}}{{if $index}}|{{end}}{{$element.File}}=>{{$element.URL}}{{end}}"
+                        },
+                        {
+                            "opts": {
+                                "category": "Debug",
+                                "description": "Specify a custom name for the compressed artifact. We're going to\nuse the *Deploy directory* name if you leave it blank.\n\nThis option only works if you selected *true* for *is_compress*.",
+                                "is_dont_change_value": false,
+                                "is_expand": true,
+                                "is_required": false,
+                                "is_sensitive": false,
+                                "is_template": false,
+                                "skip_if_empty": false,
+                                "summary": "Specify a custom name for the compressed artifact. We're going to\nuse the deploy directory name if you leave it blank.",
+                                "title": "Name of the compressed artifact (without .zip extension)"
+                            },
+                            "zip_name": null
+                        },
+                        {
+                            "build_url": "$BITRISE_BUILD_URL",
+                            "opts": {
+                                "category": "Debug",
+                                "description": "Unique build URL of this build on Bitrise.io",
+                                "is_dont_change_value": true,
+                                "is_expand": true,
+                                "is_required": true,
+                                "is_sensitive": false,
+                                "is_template": false,
+                                "skip_if_empty": false,
+                                "summary": "Unique build URL of this build on Bitrise.io",
+                                "title": "Bitrise Build URL"
+                            }
+                        },
+                        {
+                            "build_api_token": "$BITRISE_BUILD_API_TOKEN",
+                            "opts": {
+                                "category": "Debug",
+                                "description": "The build's API Token for the build on Bitrise.io",
+                                "is_dont_change_value": true,
+                                "is_expand": true,
+                                "is_required": true,
+                                "is_sensitive": true,
+                                "is_template": false,
+                                "skip_if_empty": false,
+                                "summary": "The build's API Token for the build on Bitrise.io",
+                                "title": "Bitrise Build API Token"
+                            }
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "BITRISE_PUBLIC_INSTALL_PAGE_URL": null,
+                            "opts": {
+                                "category": "",
+                                "description": "Public Install Page's URL, if the\n*Enable public page for the App?* option was *enabled*.",
+                                "is_dont_change_value": false,
+                                "is_expand": true,
+                                "is_required": false,
+                                "is_sensitive": false,
+                                "is_template": false,
+                                "skip_if_empty": false,
+                                "summary": "",
+                                "title": "Public Install Page URL"
+                            }
+                        },
+                        {
+                            "BITRISE_PUBLIC_INSTALL_PAGE_URL_MAP": null,
+                            "opts": {
+                                "category": "",
+                                "description": "Public Install Page URLs by the artifact's file path.\nOnly set it if the *Enable public page for the App?* option was *enabled*.\n\nThe format is `KEY1=>VALUE|KEY2=>VALUE`\n\nExamples:\n\n- $BITRISE_DEPLOY_DIR/ios_app.ipa=>https://ios_app/public/install/page\n- $BITRISE_DEPLOY_DIR/android_app.apk=>https://android_app/public/install/page|$BITRISE_DEPLOY_DIR/ios_app.ipa=>https://ios_app/public/install/page",
+                                "is_dont_change_value": false,
+                                "is_expand": true,
+                                "is_required": false,
+                                "is_sensitive": false,
+                                "is_template": false,
+                                "skip_if_empty": false,
+                                "summary": "",
+                                "title": "Map of filenames and Public Install Page URLs"
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        "some-test-step": {
+            "info": {
+                "asset_urls": {
+                    "icon.svg": "https://bitrise-steplib-collection.s3.amazonaws.com/steps/deploy-to-bitrise-io/assets/icon.svg"
+                }
+            },
+            "versions": {
+                "1.3.19": {
+                    "title": "Deploy to Bitrise.io - Apps, Logs, Artifacts",
+                    "summary": "Generic artifacts deployer, attaches the artifacts to bitrise.io builds.",
+                    "description": "This generic artifacts deployer attaches the artifacts to bitrise.io builds.\n\nYou'll see the deployed files in the `Apps and Artifacts` section of the build's page on bitrise.io.",
+                    "website": "https://github.com/lszucs/steps-deploy-to-bitrise-io",
+                    "source_code_url": "https://github.com/lszucs/steps-deploy-to-bitrise-io",
+                    "support_url": "https://github.com/lszucs/steps-deploy-to-bitrise-io/issues",
+                    "published_at": "2018-12-19T12:51:27.610953011Z",
+                    "source": {
+                        "git": "https://github.com/nonexistent/steps-some-test-step.git",
+                        "commit": "dd02ec72036eea4bb5ed8099493fd2e5c809a285"
+                    },
+                    "asset_urls": {
+                        "icon.svg": "https://bitrise-steplib-collection.s3.amazonaws.com/steps/deploy-to-bitrise-io/assets/icon.svg"
+                    },
+                    "host_os_tags": [
+                        "osx-10.10"
+                    ],
+                    "type_tags": [
+                        "deploy"
+                    ],
+                    "toolkit": {
+                        "go": {
+                            "package_name": "github.com/lszucs/steps-deploy-to-bitrise-io"
+                        }
+                    },
+                    "is_requires_admin_user": false,
+                    "is_always_run": true,
+                    "is_skippable": false,
+                    "run_if": ".IsCI",
+                    "timeout": 0,
+                    "inputs": [
+                        {
+                            "deploy_path": "$BITRISE_DEPLOY_DIR",
+                            "opts": {
+                                "category": "",
+                                "description": "Specify the directory or file path which will be deployed.\nIf the specified path is a directory, then every file\nin the specified directory will be deployed, sub-directories, however,\nwon't be uploaded. To upload the directory's content\nrecursively, you should use the *Compress* option\nwhich will compress the whole directory, with\nevery sub-directory included.\n\nIf you specify a file path, then only the specified\nfile will be deployed.\n",
+                                "is_dont_change_value": false,
+                                "is_expand": true,
+                                "is_required": true,
+                                "is_sensitive": false,
+                                "is_template": false,
+                                "skip_if_empty": false,
+                                "summary": "",
+                                "title": "Deploy directory or file path"
+                            }
+                        },
+                        {
+                            "notify_user_groups": "everyone",
+                            "opts": {
+                                "category": "",
+                                "description": "Your App's user roles you want to notify. Separate the role names with commas.\nPossible role names:\n\n* none\n* testers\n* developers\n* admins\n* owner\n* everyone\n\nAn example to notify your developers and testers:\n\n`testers, developers`\n\nIf you want to notify everyone in the app's team, just specify `everyone`.\n\nIf you don't want to notify anyone, set this to `none`.\n",
+                                "is_dont_change_value": false,
+                                "is_expand": true,
+                                "is_required": false,
+                                "is_sensitive": false,
+                                "is_template": false,
+                                "skip_if_empty": false,
+                                "summary": "",
+                                "title": "Notify: User Roles"
+                            }
+                        },
+                        {
+                            "notify_email_list": null,
+                            "opts": {
+                                "category": "",
+                                "description": "Email addresses to notify. Separate them with commas.\n\nYou can specify any email address, the recipients\ndon't have to be in your team.\n",
+                                "is_dont_change_value": false,
+                                "is_expand": true,
+                                "is_required": false,
+                                "is_sensitive": true,
+                                "is_template": false,
+                                "skip_if_empty": false,
+                                "summary": "",
+                                "title": "Notify: Emails"
+                            }
+                        },
+                        {
+                            "is_enable_public_page": "true",
+                            "opts": {
+                                "category": "",
+                                "description": "If this option is enabled, a public install page\nwill be available with a long and random URL which can be shared\nwith others who are not registered on Bitrise.\n\n**If you disable this option, the `Notify Emails` option will\nbe ignored and the `Notify User Roles` users will receive the build's\nURL instead of the public page's URL!**\n",
+                                "is_dont_change_value": false,
+                                "is_expand": false,
+                                "is_required": true,
+                                "is_sensitive": false,
+                                "is_template": false,
+                                "skip_if_empty": false,
+                                "summary": "",
+                                "title": "Enable public page for the App?",
+                                "value_options": [
+                                    "true",
+                                    "false"
+                                ]
+                            }
+                        },
+                        {
+                            "is_compress": "false",
+                            "opts": {
+                                "category": "",
+                                "description": "If this option is allowed, the artifacts\nfound in the *Deploy directory* folder will be compressed\ninto a single file.\n\nYou can specify a custom name for the ZIP using the *zip_name*\noption - otherwise we're going to use the *Deploy directory* name.\n\nIf this option is turned off, the artifacts\nfound in the *Deploy directory* folder will be deployed\nseparately.",
+                                "is_dont_change_value": false,
+                                "is_expand": false,
+                                "is_required": true,
+                                "is_sensitive": false,
+                                "is_template": false,
+                                "skip_if_empty": false,
+                                "summary": "If this option is allowed, the artifacts\nfound in the *Deploy directory* folder will be compressed\ninto a single (ZIP) file.",
+                                "title": "Compress the artifacts into one file?",
+                                "value_options": [
+                                    "true",
+                                    "false"
+                                ]
+                            }
+                        },
+                        {
+                            "opts": {
+                                "category": "",
+                                "description": "Specify the output pattern with golang template: [https://golang.org/pkg/text/template](https://golang.org/pkg/text/template)",
+                                "is_dont_change_value": false,
+                                "is_expand": false,
+                                "is_required": true,
+                                "is_sensitive": false,
+                                "is_template": false,
+                                "skip_if_empty": false,
+                                "summary": "You can change the format of the BITRISE_PUBLIC_INSTALL_PAGE_URL_MAP output",
+                                "title": "Format for the BITRISE_PUBLIC_INSTALL_PAGE_URL_MAP output"
+                            },
+                            "public_install_page_url_map_format": "{{range $index, $element := .}}{{if $index}}|{{end}}{{$element.File}}=>{{$element.URL}}{{end}}"
+                        },
+                        {
+                            "opts": {
+                                "category": "Debug",
+                                "description": "Specify a custom name for the compressed artifact. We're going to\nuse the *Deploy directory* name if you leave it blank.\n\nThis option only works if you selected *true* for *is_compress*.",
+                                "is_dont_change_value": false,
+                                "is_expand": true,
+                                "is_required": false,
+                                "is_sensitive": false,
+                                "is_template": false,
+                                "skip_if_empty": false,
+                                "summary": "Specify a custom name for the compressed artifact. We're going to\nuse the deploy directory name if you leave it blank.",
+                                "title": "Name of the compressed artifact (without .zip extension)"
+                            },
+                            "zip_name": null
+                        },
+                        {
+                            "build_url": "$BITRISE_BUILD_URL",
+                            "opts": {
+                                "category": "Debug",
+                                "description": "Unique build URL of this build on Bitrise.io",
+                                "is_dont_change_value": true,
+                                "is_expand": true,
+                                "is_required": true,
+                                "is_sensitive": false,
+                                "is_template": false,
+                                "skip_if_empty": false,
+                                "summary": "Unique build URL of this build on Bitrise.io",
+                                "title": "Bitrise Build URL"
+                            }
+                        },
+                        {
+                            "build_api_token": "$BITRISE_BUILD_API_TOKEN",
+                            "opts": {
+                                "category": "Debug",
+                                "description": "The build's API Token for the build on Bitrise.io",
+                                "is_dont_change_value": true,
+                                "is_expand": true,
+                                "is_required": true,
+                                "is_sensitive": true,
+                                "is_template": false,
+                                "skip_if_empty": false,
+                                "summary": "The build's API Token for the build on Bitrise.io",
+                                "title": "Bitrise Build API Token"
+                            }
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "BITRISE_PUBLIC_INSTALL_PAGE_URL": null,
+                            "opts": {
+                                "category": "",
+                                "description": "Public Install Page's URL, if the\n*Enable public page for the App?* option was *enabled*.",
+                                "is_dont_change_value": false,
+                                "is_expand": true,
+                                "is_required": false,
+                                "is_sensitive": false,
+                                "is_template": false,
+                                "skip_if_empty": false,
+                                "summary": "",
+                                "title": "Public Install Page URL"
+                            }
+                        },
+                        {
+                            "BITRISE_PUBLIC_INSTALL_PAGE_URL_MAP": null,
+                            "opts": {
+                                "category": "",
+                                "description": "Public Install Page URLs by the artifact's file path.\nOnly set it if the *Enable public page for the App?* option was *enabled*.\n\nThe format is `KEY1=>VALUE|KEY2=>VALUE`\n\nExamples:\n\n- $BITRISE_DEPLOY_DIR/ios_app.ipa=>https://ios_app/public/install/page\n- $BITRISE_DEPLOY_DIR/android_app.apk=>https://android_app/public/install/page|$BITRISE_DEPLOY_DIR/ios_app.ipa=>https://ios_app/public/install/page",
+                                "is_dont_change_value": false,
+                                "is_expand": true,
+                                "is_required": false,
+                                "is_sensitive": false,
+                                "is_template": false,
+                                "skip_if_empty": false,
+                                "summary": "",
+                                "title": "Map of filenames and Public Install Page URLs"
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        "step-with-error-step": {
+            "info": {
+                "asset_urls": {
+                    "icon.svg": "https://bitrise-steplib-collection.s3.amazonaws.com/steps/deploy-to-bitrise-io/assets/icon.svg"
+                }
+            },
+            "versions": {
+                "1.3.19": {
+                    "title": "Deploy to Bitrise.io - Apps, Logs, Artifacts",
+                    "summary": "Generic artifacts deployer, attaches the artifacts to bitrise.io builds.",
+                    "description": "This generic artifacts deployer attaches the artifacts to bitrise.io builds.\n\nYou'll see the deployed files in the `Apps and Artifacts` section of the build's page on bitrise.io.",
+                    "website": "https://github.com/lszucs/steps-deploy-to-bitrise-io",
+                    "source_code_url": "https://github.com/lszucs/steps-deploy-to-bitrise-io",
+                    "support_url": "https://github.com/lszucs/steps-deploy-to-bitrise-io/issues",
+                    "published_at": "2018-12-19T12:51:27.610953011Z",
+                    "source": {
+                        "git": "https://github.com/lszucs/step-with-error.git",
+                        "commit": "dd02ec72036eea4bb5ed8099493fd2e5c809a285"
+                    },
+                    "asset_urls": {
+                        "icon.svg": "https://bitrise-steplib-collection.s3.amazonaws.com/steps/deploy-to-bitrise-io/assets/icon.svg"
+                    },
+                    "host_os_tags": [
+                        "osx-10.10"
+                    ],
+                    "type_tags": [
+                        "deploy"
+                    ],
+                    "toolkit": {
+                        "go": {
+                            "package_name": "github.com/lszucs/steps-deploy-to-bitrise-io"
+                        }
+                    },
+                    "is_requires_admin_user": false,
+                    "is_always_run": true,
+                    "is_skippable": false,
+                    "run_if": ".IsCI",
+                    "timeout": 0,
+                    "inputs": [
+                        {
+                            "deploy_path": "$BITRISE_DEPLOY_DIR",
+                            "opts": {
+                                "category": "",
+                                "description": "Specify the directory or file path which will be deployed.\nIf the specified path is a directory, then every file\nin the specified directory will be deployed, sub-directories, however,\nwon't be uploaded. To upload the directory's content\nrecursively, you should use the *Compress* option\nwhich will compress the whole directory, with\nevery sub-directory included.\n\nIf you specify a file path, then only the specified\nfile will be deployed.\n",
+                                "is_dont_change_value": false,
+                                "is_expand": true,
+                                "is_required": true,
+                                "is_sensitive": false,
+                                "is_template": false,
+                                "skip_if_empty": false,
+                                "summary": "",
+                                "title": "Deploy directory or file path"
+                            }
+                        },
+                        {
+                            "notify_user_groups": "everyone",
+                            "opts": {
+                                "category": "",
+                                "description": "Your App's user roles you want to notify. Separate the role names with commas.\nPossible role names:\n\n* none\n* testers\n* developers\n* admins\n* owner\n* everyone\n\nAn example to notify your developers and testers:\n\n`testers, developers`\n\nIf you want to notify everyone in the app's team, just specify `everyone`.\n\nIf you don't want to notify anyone, set this to `none`.\n",
+                                "is_dont_change_value": false,
+                                "is_expand": true,
+                                "is_required": false,
+                                "is_sensitive": false,
+                                "is_template": false,
+                                "skip_if_empty": false,
+                                "summary": "",
+                                "title": "Notify: User Roles"
+                            }
+                        },
+                        {
+                            "notify_email_list": null,
+                            "opts": {
+                                "category": "",
+                                "description": "Email addresses to notify. Separate them with commas.\n\nYou can specify any email address, the recipients\ndon't have to be in your team.\n",
+                                "is_dont_change_value": false,
+                                "is_expand": true,
+                                "is_required": false,
+                                "is_sensitive": true,
+                                "is_template": false,
+                                "skip_if_empty": false,
+                                "summary": "",
+                                "title": "Notify: Emails"
+                            }
+                        },
+                        {
+                            "is_enable_public_page": "true",
+                            "opts": {
+                                "category": "",
+                                "description": "If this option is enabled, a public install page\nwill be available with a long and random URL which can be shared\nwith others who are not registered on Bitrise.\n\n**If you disable this option, the `Notify Emails` option will\nbe ignored and the `Notify User Roles` users will receive the build's\nURL instead of the public page's URL!**\n",
+                                "is_dont_change_value": false,
+                                "is_expand": false,
+                                "is_required": true,
+                                "is_sensitive": false,
+                                "is_template": false,
+                                "skip_if_empty": false,
+                                "summary": "",
+                                "title": "Enable public page for the App?",
+                                "value_options": [
+                                    "true",
+                                    "false"
+                                ]
+                            }
+                        },
+                        {
+                            "is_compress": "false",
+                            "opts": {
+                                "category": "",
+                                "description": "If this option is allowed, the artifacts\nfound in the *Deploy directory* folder will be compressed\ninto a single file.\n\nYou can specify a custom name for the ZIP using the *zip_name*\noption - otherwise we're going to use the *Deploy directory* name.\n\nIf this option is turned off, the artifacts\nfound in the *Deploy directory* folder will be deployed\nseparately.",
+                                "is_dont_change_value": false,
+                                "is_expand": false,
+                                "is_required": true,
+                                "is_sensitive": false,
+                                "is_template": false,
+                                "skip_if_empty": false,
+                                "summary": "If this option is allowed, the artifacts\nfound in the *Deploy directory* folder will be compressed\ninto a single (ZIP) file.",
+                                "title": "Compress the artifacts into one file?",
+                                "value_options": [
+                                    "true",
+                                    "false"
+                                ]
+                            }
+                        },
+                        {
+                            "opts": {
+                                "category": "",
+                                "description": "Specify the output pattern with golang template: [https://golang.org/pkg/text/template](https://golang.org/pkg/text/template)",
+                                "is_dont_change_value": false,
+                                "is_expand": false,
+                                "is_required": true,
+                                "is_sensitive": false,
+                                "is_template": false,
+                                "skip_if_empty": false,
+                                "summary": "You can change the format of the BITRISE_PUBLIC_INSTALL_PAGE_URL_MAP output",
+                                "title": "Format for the BITRISE_PUBLIC_INSTALL_PAGE_URL_MAP output"
+                            },
+                            "public_install_page_url_map_format": "{{range $index, $element := .}}{{if $index}}|{{end}}{{$element.File}}=>{{$element.URL}}{{end}}"
+                        },
+                        {
+                            "opts": {
+                                "category": "Debug",
+                                "description": "Specify a custom name for the compressed artifact. We're going to\nuse the *Deploy directory* name if you leave it blank.\n\nThis option only works if you selected *true* for *is_compress*.",
+                                "is_dont_change_value": false,
+                                "is_expand": true,
+                                "is_required": false,
+                                "is_sensitive": false,
+                                "is_template": false,
+                                "skip_if_empty": false,
+                                "summary": "Specify a custom name for the compressed artifact. We're going to\nuse the deploy directory name if you leave it blank.",
+                                "title": "Name of the compressed artifact (without .zip extension)"
+                            },
+                            "zip_name": null
+                        },
+                        {
+                            "build_url": "$BITRISE_BUILD_URL",
+                            "opts": {
+                                "category": "Debug",
+                                "description": "Unique build URL of this build on Bitrise.io",
+                                "is_dont_change_value": true,
+                                "is_expand": true,
+                                "is_required": true,
+                                "is_sensitive": false,
+                                "is_template": false,
+                                "skip_if_empty": false,
+                                "summary": "Unique build URL of this build on Bitrise.io",
+                                "title": "Bitrise Build URL"
+                            }
+                        },
+                        {
+                            "build_api_token": "$BITRISE_BUILD_API_TOKEN",
+                            "opts": {
+                                "category": "Debug",
+                                "description": "The build's API Token for the build on Bitrise.io",
+                                "is_dont_change_value": true,
+                                "is_expand": true,
+                                "is_required": true,
+                                "is_sensitive": true,
+                                "is_template": false,
+                                "skip_if_empty": false,
+                                "summary": "The build's API Token for the build on Bitrise.io",
+                                "title": "Bitrise Build API Token"
+                            }
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "BITRISE_PUBLIC_INSTALL_PAGE_URL": null,
+                            "opts": {
+                                "category": "",
+                                "description": "Public Install Page's URL, if the\n*Enable public page for the App?* option was *enabled*.",
+                                "is_dont_change_value": false,
+                                "is_expand": true,
+                                "is_required": false,
+                                "is_sensitive": false,
+                                "is_template": false,
+                                "skip_if_empty": false,
+                                "summary": "",
+                                "title": "Public Install Page URL"
+                            }
+                        },
+                        {
+                            "BITRISE_PUBLIC_INSTALL_PAGE_URL_MAP": null,
+                            "opts": {
+                                "category": "",
+                                "description": "Public Install Page URLs by the artifact's file path.\nOnly set it if the *Enable public page for the App?* option was *enabled*.\n\nThe format is `KEY1=>VALUE|KEY2=>VALUE`\n\nExamples:\n\n- $BITRISE_DEPLOY_DIR/ios_app.ipa=>https://ios_app/public/install/page\n- $BITRISE_DEPLOY_DIR/android_app.apk=>https://android_app/public/install/page|$BITRISE_DEPLOY_DIR/ios_app.ipa=>https://ios_app/public/install/page",
+                                "is_dont_change_value": false,
+                                "is_expand": true,
+                                "is_required": false,
+                                "is_sensitive": false,
+                                "is_template": false,
+                                "skip_if_empty": false,
+                                "summary": "",
+                                "title": "Map of filenames and Public Install Page URLs"
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}
