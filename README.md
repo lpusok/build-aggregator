@@ -9,12 +9,18 @@ After cloning the repository, you have to create a `.bitrise.secrets.yml` and sp
   - `BUILD_AGGREGATOR_SLACK_WEBHOOK`: Slack webhook URL accepting messages
   - `BITRISE_API_TOKEN`: Bitrise personal access token
   - `GITHUB_ACCESS_TOKEN`: GitHub personal access token
+  - `CHANNEL`: Slack channel to send build outcome messages
   - `STEPLIB_SPEC_URL`: Steplib URL (eg: `http://localhost:8088`)
   - `GITHUB_ORGS`: comma separated list of GitHub organisations to filter the steplib steps (eg: `octocat,lszucs`)
-  - `DEBUG`: debug output -- any nonempty string is interpreted as true
-  - `CHANNEL`: Slack channel to send build outcome messages
 
 That's it! Now you can configure whatever workflow suits you and use `bitrise run` to run it.
+
+Two run arguments are required:
+
+  -  `--steplib-spec-url`: Steplib URL (eg: `http://localhost:8088`)
+  - `--github-orgs`: comma separated list of GitHub organisations to filter the steplib steps (eg: `octocat,lszucs`)
+
+You can set these arguments in `.bitrise.secrets.yml` and have them automatically passed when using the `bitrise` cli to run the workflow.
 
 ## Development and testing
 
