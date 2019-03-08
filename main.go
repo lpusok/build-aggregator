@@ -81,15 +81,11 @@ func main() {
 	webhook.BgCtx = context.Background()
 	webhook.GHClient = githubClient(&webhook.BgCtx, ghtoken)
 
-	var debug string
 	var githubOrgs string
 
-	flag.StringVar(&debug, "debug", defaultDebug, "--debug=true|false")
 	flag.StringVar(&steplibSpecURL, "steplib-spec-url", "", "--steplib-spec-url=http://localhost:8088/mysteplib/spec.json")
 	flag.StringVar(&githubOrgs, "github-orgs", "", "--github-orgs=bitrise-io,bitrise-steplib")
 	flag.Parse()
-
-	log.SetEnableDebugLog(debug != "")
 
 	if steplibSpecURL == "" {
 		log.Errorf("steplib spec url empty")
