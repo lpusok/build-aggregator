@@ -19,6 +19,7 @@ Two run arguments are required:
 
   -  `--steplib-spec-url`: Steplib URL (eg: `http://localhost:8088`)
   - `--github-orgs`: comma separated list of GitHub organisations to filter the steplib steps (eg: `octocat,lszucs`)
+  - `--batch-size`: integer value, specifies how many builds will be processed in one batch
 
 You can set these arguments in `.bitrise.secrets.yml` and have them automatically passed when using the `bitrise` cli to run the workflow.
 

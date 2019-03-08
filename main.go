@@ -24,6 +24,7 @@ var (
 	bitriseOrgs    []string
 	steplibSpecURL string
 	defaultDebug   = ""
+	defaultBatchSize = 5
 )
 
 func waitUntilFinished(builds []bitrise.Build) error {
@@ -82,9 +83,11 @@ func main() {
 	webhook.GHClient = githubClient(&webhook.BgCtx, ghtoken)
 
 	var githubOrgs string
+	var batchSize int
 
 	flag.StringVar(&steplibSpecURL, "steplib-spec-url", "", "--steplib-spec-url=http://localhost:8088/mysteplib/spec.json")
 	flag.StringVar(&githubOrgs, "github-orgs", "", "--github-orgs=bitrise-io,bitrise-steplib")
+	flag.IntVar(&batchSize, "batch-size", defaultBatchSize, "--batch-size=5")
 	flag.Parse()
 
 	if steplibSpecURL == "" {
@@ -108,7 +111,6 @@ func main() {
 	bitriseSteps := steplib.FilterByOrg(steps, strings.Split(githubOrgs, ","))
 
 	batcher := looputil.Batcher{Collection: bitriseSteps}
-	batchSize := 5
 	finisheds, allSkips := []bitrise.Build{}, []output.Skipped{}
 	for batcher.HasNext() {
 		batch := batcher.Next(batchSize)
