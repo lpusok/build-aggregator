@@ -1,0 +1,39 @@
+format_version: "6"
+default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
+project_type: other
+
+workflows:
+  primary:
+    steps:
+    - script@1.1.5:
+        title: Run binary
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+            go run ./.
+    - slack@3.1.2:
+        inputs:
+        - webhook_url: $BUILD_AGGREGATOR_SLACK_WEBHOOK
+        - channel: $CHANNEL
+        - fields: $REPORT_TEXT
+        - pretext: $REPORT_PRETEXT
+        - color: $REPORT_COLOR
+  test:
+    steps:
+    - go-list:
+    - golint:
+    - errcheck:
+    - script@1.1.5:
+        title: Run binary
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+            go run ./.  --steplib-spec-url=http://localhost:8088 --github-orgs=lszucs
+    - slack@3.1.2:
+        inputs:
+        - webhook_url: $BUILD_AGGREGATOR_SLACK_WEBHOOK
+        - channel: $CHANNEL
+        - fields: $REPORT_TEXT
+        - pretext: $REPORT_PRETEXT
+        - color: $REPORT_COLOR
+
